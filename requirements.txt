@@ -17,7 +17,7 @@ torch>=1.7.0  # see https://pytorch.org/get-started/locally (recommended)
 torchvision>=0.8.1
 tqdm>=4.64.0
 albumentations>=1.0.0
-pytorch-lightning>=1.0.0
+pytorch-lightning==1.7.3
 
 
 # Logging ---------------------------------------------------------------------
