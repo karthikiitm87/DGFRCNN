@@ -1,4 +1,4 @@
-# Domain generalisation for Object Detection
+# Domain Generalised Faster R-CNN
 
 This repository has all the codes needed to replicate the results from our following paper in AAAI 2023: 
 1. K. Seemakurthy, C. Fox, E. Aptoula, and P. Bosilj, "Domain Generalised Faster R-CNN", AAAI 2023 (accepted)
