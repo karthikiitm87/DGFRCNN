@@ -64,7 +64,7 @@ if __name__ == '__main__':
     categories = {'person':1, 'rider': 2,'car': 3,'truck': 4, 'bus':5, 'train':6, 'motorcycle':7, 'bicycle':8}
       
 
-  for (dirpath, dirnames, filenames) in walk('./leftImg8bit_'+args.weather): 
+  for (dirpath, dirnames, filenames) in walk('./cityscapes_'+args.weather): 
     split = dirpath.split('/')
     if(len(split) == 4):
       for f in filenames:
