@@ -37,6 +37,10 @@ BDD100K, Cityscapes, Foggy-cityscapes, Rain-Cityscapes need to be downloaded man
     |     ├── VOC2012
     |     |       ├── Annotations
     |     |       ├── JPEGImages
+    ├── gtFine
+    |     ├── train
+    |     ├── val
+    |     ├── test
     ├── cityscapes_clear
     |     ├── train
     |     ├── val
