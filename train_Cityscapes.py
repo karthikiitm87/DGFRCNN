@@ -33,7 +33,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 # Pytorch import
-from pytorch_lightning.core.lightning import LightningModule
+from pytorch_lightning.core import LightningModule
 from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning.callbacks import Callback, ModelCheckpoint, EarlyStopping
 from pytorch_lightning.callbacks import LearningRateMonitor
@@ -55,7 +55,7 @@ import cv2
 
 class CityScapesDataset(Dataset):
     #Dataset class for Cityscapes
-    def __init__(self, csv_file, root_dir, transform=None):
+    def __init__(self, csv_file, root, transform=None):
         """
         Args:
             csv_file (string): Path to the csv file with annotations.
@@ -306,8 +306,8 @@ def collate_fn(batch):
     return images, targets, cls_labels, domain
 
 
-tr_dataset = CityScapesDataset('../datasets/Annots/cityscapes_train.csv', root='../datasets/cityscapes_clear/train/', transform=train_transform)
-vl_dataset = CityScapesDataset('../datasets/Annots/cityscapes_val.csv', root='../datasets/cityscapes_clear/val/', transform=valid_transform)
+tr_dataset = CityScapesDataset('./datasets/Annots/cityscapes_clear_all_train.csv', root='./datasets/cityscapes_clear/train/', transform=train_transform)
+vl_dataset = CityScapesDataset('./datasets/Annots/cityscapes_clear_all_val.csv', root='./datasets/cityscapes_clear/val/', transform=valid_transform)
 
 val_dataloader = torch.utils.data.DataLoader(vl_dataset, batch_size=1, shuffle=False,  collate_fn=collate_fn)
     
@@ -583,7 +583,7 @@ early_stop_callback= EarlyStopping(monitor='val_acc', min_delta=0.00, patience=1
 
 
 checkpoint_callback = ModelCheckpoint(monitor='val_loss', dirpath=NET_FOLDER, filename=weights_file)
-trainer = Trainer(gpus=1, progress_bar_refresh_rate=1, max_epochs=100, deterministic=False, callbacks=[checkpoint_callback, early_stop_callback], reload_dataloaders_every_n_epochs=1)
+trainer = Trainer(max_epochs=100, deterministic=False, callbacks=[checkpoint_callback, early_stop_callback], reload_dataloaders_every_n_epochs=1)
 trainer.fit(detector, val_dataloaders=val_dataloader)
 
 
