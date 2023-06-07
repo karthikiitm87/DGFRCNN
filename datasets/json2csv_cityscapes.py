@@ -89,8 +89,8 @@ if __name__ == '__main__':
             y_max = np.max(polygon_coods[:,1])
               
             bboxes.append([x_min, y_min, x_max, y_max])
-            #labels.append(categories[item['label']])
-            labels.append(item['label'])
+            labels.append(categories[item['label']])
+            #labels.append(item['label'])
             if(split[2] == 'train'):
               train_obj_freq[item['label']] = train_obj_freq[item['label']] + 1
             elif(split[2] == 'val'):
