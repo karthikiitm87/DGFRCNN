@@ -65,11 +65,12 @@ if __name__ == '__main__':
   #categories = {'car': 1}
   categories = {'person':1, 'rider': 2,'car': 3,'truck': 4, 'bus':5, 'train':6, 'motorcycle':7, 'bicycle':8}
   weather = args.weather
-  df = pd.read_csv(weather+'_trainval_refined_filenames.txt', names = ['image_name'])
+  df = pd.read_csv(weather+'_trainval_filenames.txt', names = ['image_name'])
 
   for index in range(len(df)):
     [image_set, city, image_name] = df['image_name'][index].split('/')
-    path = 'leftImg8bit_'+weather+'/'+image_set+'/'+city+'/'
+    path = 'cityscapes_'+weather+'/'+image_set+'/'+city+'/'
+    print(path)
     result = find_all(image_name+'*', path)  #Has all the file names matching the string 
   
     for item in result:
@@ -95,8 +96,8 @@ if __name__ == '__main__':
           y_max = np.max(polygon_coods[:,1])
               
           bboxes.append([x_min, y_min, x_max, y_max])
-          #labels.append(categories[item['label']])
-          labels.append(item['label'])
+          labels.append(categories[item['label']])
+          #labels.append(item['label'])
           if(image_set == 'train'):
             train_obj_freq[item['label']] = train_obj_freq[item['label']] + 1
           elif(image_set == 'val'):
@@ -110,9 +111,11 @@ if __name__ == '__main__':
       new_row = {'image_name':image_path, 'BoxesString': BoxesString, 'LabelsString': LabelsString}  
     
       if(image_set == 'train'):
-        train_df = train_df.append(new_row, ignore_index=True)
+        train_df = pd.concat([train_df, pd.DataFrame([new_row])], ignore_index=True)
+       
       elif(image_set == 'val'):
-        val_df = val_df.append(new_row, ignore_index=True)
+        val_df = pd.concat([val_df, pd.DataFrame([new_row])], ignore_index=True)
+        
       else:
         continue
 	       	
@@ -124,6 +127,6 @@ if __name__ == '__main__':
 
   #print(train_obj_freq)
   #print(val_obj_freq)
-  #print(train_df.head())
+  print(train_df.head())
   #print(val_df.head())
 
