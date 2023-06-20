@@ -58,6 +58,8 @@ BDD100K, Cityscapes, Foggy-cityscapes, Rain-Cityscapes need to be downloaded man
     ├── downloads.sh
     ├── to_csv_conversion.sh
     ├── Annots
+    ├── foggy_trainval_filenames.txt
+    ├── rain_trainval_filenames.txt
 ```
 
 Once above directory structure is ensured, the following command needs to be executed to convert all the annotations into csv format and place them in Annots as needed by our code. 
