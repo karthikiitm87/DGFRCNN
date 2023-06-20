@@ -69,8 +69,7 @@ if __name__ == '__main__':
 
   for index in range(len(df)):
     [image_set, city, image_name] = df['image_name'][index].split('/')
-    path = 'cityscapes_'+weather+'/'+image_set+'/'+city+'/'
-    print(path)
+    path = 'cityscapes_'+weather+'/'+image_set+'/'+city+'/'  #
     result = find_all(image_name+'*', path)  #Has all the file names matching the string 
   
     for item in result:
