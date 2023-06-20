@@ -116,6 +116,7 @@ class CityScapesDataset(Dataset):
       """
       Small method to decode the BoxesString
       """
+      
       if LabelsString == "no_label":
           return np.array([])
       else:
@@ -136,7 +137,7 @@ class CityScapesDataset(Dataset):
       else:
           try:
               boxes =  np.array([np.array([int(i) for i in box.split(" ")])
-                              for box in BoxesString.split(";")])
+              for box in BoxesString.split(";")])
               return boxes.astype(np.int32).clip(min=0)
           except:
               print(BoxesString)
@@ -581,9 +582,9 @@ else:
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 early_stop_callback= EarlyStopping(monitor='val_acc', min_delta=0.00, patience=10, verbose=False, mode='max')
 
-
+#because of version change added accelerator = 'gpu', devices=1 in Trainer
 checkpoint_callback = ModelCheckpoint(monitor='val_loss', dirpath=NET_FOLDER, filename=weights_file)
-trainer = Trainer(gpus=1, max_epochs=100, deterministic=False, callbacks=[checkpoint_callback, early_stop_callback], reload_dataloaders_every_n_epochs=1)
+trainer = Trainer(accelerator='gpu', devices=1, max_epochs=100, deterministic=False, callbacks=[checkpoint_callback, early_stop_callback], reload_dataloaders_every_n_epochs=1)
 trainer.fit(detector, val_dataloaders=val_dataloader)
 
 
