@@ -536,7 +536,7 @@ class DGFasterRCNN(LightningModule):
 
     def accuracy(self, src_boxes,pred_boxes ,  iou_threshold = 1.):
       """
-      #The accuracy method is not the one used in the evaluator but very similar
+      #This function calcualtes the precision per class. 
       """
       total_gt = len(src_boxes)
       total_pred = len(pred_boxes)
@@ -557,7 +557,7 @@ class DGFasterRCNN(LightningModule):
         false_negative = total_gt - true_positive
 
             
-        return  true_positive / (true_positive + false_positive) #mAP for cityscapes
+        return  true_positive / (true_positive + false_positive) #Precision per class
 
       elif total_gt == 0:
           if total_pred > 0:
