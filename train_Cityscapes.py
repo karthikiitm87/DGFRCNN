@@ -506,13 +506,15 @@ class DGFasterRCNN(LightningModule):
       preds[0]['labels'] = preds[0]['labels'][preds[0]['scores'] > 0.5]
            
       unique_labels = torch.unique(labels[0])
-      if(torch.sum(unique_labels) > 0):  #Checking this will ensure deal with no_box conditions. But this will not handle where there are false detections. When TP=0, precision=0
+      if(torch.sum(unique_labels) > 0):  #Checking this will ensure deal with no_box conditions. 
         for label in unique_labels:
           indices_s = torch.where(labels[0] == label)
           indices_t = torch.where(preds[0]['labels'] == label)
           if len(indices_t[0]) > 0:
+            # accuracy function defined in this class calculates the precision for each class
+            # The below line of code is accumulating the precision for each class in all the images
             self.val_acc[label-1] = self.val_acc[label-1] + self.accuracy(boxes[0][indices_s[0]], preds[0]['boxes'][indices_t[0]], iou_threshold=0.5)
-          self.freq[label-1] = self.freq[label-1] + 1
+          self.freq[label-1] = self.freq[label-1] + 1  
   
       #return val_acc_stack
     
@@ -520,10 +522,10 @@ class DGFasterRCNN(LightningModule):
 
       for index in range(8):
         if self.freq[index] > 0:
-          self.val_acc[index] = self.val_acc[index] / self.freq[index]
+          self.val_acc[index] = self.val_acc[index] / self.freq[index] # Calculating the average precision for each class
       
       print(self.val_acc)
-      temp = torch.sum(self.val_acc) / (self.n_classes-1)
+      temp = torch.sum(self.val_acc) / (self.n_classes-1) # Computing mean average precision
       if(self.best_val_acc < temp):
         self.best_val_acc = temp
       print('Validation accuracy(mAP): ',temp)
